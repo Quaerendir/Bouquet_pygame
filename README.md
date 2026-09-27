@@ -44,4 +44,4 @@ Animacja jest liczona od czasu (`dt`), nie od liczby klatek, więc tempo nie zal
 
 ## Licencja
 
-MIT
+MIT - szczegóły w pliku [LICENSE](LICENSE).
