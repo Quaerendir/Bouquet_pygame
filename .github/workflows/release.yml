@@ -1,0 +1,63 @@
+name: Build release binaries
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag wydania do zbudowania (np. v2.0)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            asset: Bouquet-linux-x86_64.tar.gz
+          - os: windows-latest
+            asset: Bouquet-windows-x86_64.zip
+          - os: macos-latest
+            asset: Bouquet-macos-arm64.zip
+    runs-on: ${{ matrix.os }}
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      ASSET: ${{ matrix.asset }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pygame-ce pyinstaller
+
+      - name: Build
+        run: pyinstaller --onefile --windowed --name Bouquet main.py
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        run: tar -czf "$ASSET" -C dist Bouquet
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path dist/Bouquet.exe -DestinationPath $env:ASSET
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/Bouquet.app "$ASSET"
+
+      - name: Upload to release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" "$ASSET" --clobber
