@@ -2,6 +2,8 @@
 
 Animowana kartka z bukietem róż napisana w Pythonie z użyciem Pygame'a.
 
+![Bukiet Róż 2.0 - zrzut ekranu](docs/screenshot.png)
+
 ## Opis
 
 Interaktywna animacja przedstawiająca bukiet 10 róż w papierze, przewiązany złotą kokardą:
@@ -9,6 +11,18 @@ Interaktywna animacja przedstawiająca bukiet 10 róż w papierze, przewiązany 
 - Paralaksa zależna od głębi - bliższe elementy przesuwają się mocniej za myszką
 - Opadające płatki wirują i koziołkują
 - Liście, gipsówka, ciepła poświata za bukietem i winietka
+
+## Skąd się wziął ten bukiet
+
+Programik powstał z potrzeby chwili. Zbliżał się Dzień Kobiet, a mąż - zawalony robotą - nie miał kiedy skoczyć do kwiaciarni. Skoro nie dało się róż kupić, trzeba było je napisać. 🌹
+
+Przewagi nad prawdziwym bukietem:
+- nie więdnie i nie trzeba mu zmieniać wody,
+- płatki gubi wyłącznie na ekranie, nie na podłogę,
+- można go wręczyć ponownie za rok - wystarczy `python main.py`,
+- kosztował zero złotych i odrobinę prądu.
+
+Wady: nie pachnie. Pracujemy nad tym w wersji 3.0.
 
 ## Wymagania
 
