@@ -4,13 +4,11 @@ Animowana kartka z bukietem róż napisana w Pythonie z użyciem Pygame'a.
 
 ## Opis
 
-Interaktywna animacja przedstawiająca bukiet 8 róż, które:
-- Kołyszą się wiatrem (każda róża indywidualnie)
-- Pulsują (efekt "oddychania")
-- Reagują na ruch myszki (efekt paralaksy)
-- Zrzucają pływające płatki
-
-Efekt winietowania dodaje głębi kompozycji.
+Interaktywna animacja przedstawiająca bukiet 10 róż w papierze, przewiązany złotą kokardą:
+- Róże kołyszą się wiatrem (każda indywidualnie) i delikatnie „oddychają”
+- Paralaksa zależna od głębi - bliższe elementy przesuwają się mocniej za myszką
+- Opadające płatki wirują i koziołkują
+- Liście, gipsówka, ciepła poświata za bukietem i winietka
 
 ## Wymagania
 
@@ -37,18 +35,12 @@ Instrukcje kompilacji dla różnych platform (macOS, Linux, Windows) znajdują s
 
 ## Architektura
 
-Projekt składa się z trzech głównych klas:
+- `render_*` - jednorazowy pre-render elementów statycznych (róża, papier, kokarda, tło z poświatą i winietką, napis), rysowanych w większej skali i gładko zmniejszanych (antyaliasing)
+- `Rose` - pojedyncza róża: gotowy sprite obracany i skalowany w każdej klatce (kołysanie, pulsacja, paralaksa)
+- `FloatingPetal` - opadający płatek z wirowaniem i zanikaniem
+- `Bouquet` - kompozycja warstw od tyłu do przodu (algorytm malarza): łodygi, tył papieru, zieleń, róże wg głębi, przód papieru, kokarda, płatki
 
-- `Rose` - pojedyncza róża z animacjami kołysania, pulsacji i efektami oświetlenia
-- `FloatingPetal` - cząsteczki pływających płatków z losowym ruchem
-- `Bouquet` - zarządzanie całym bukietem, sortowanie wg głębi (painter's algorithm)
-
-## Optymalizacje
-
-Kod został zoptymalizowany pod kątem wydajności:
-- Pre-allocacja surface'i (płatków, tła, winietki) - unikanie alokacji pamięci w pętli renderingu
-- Pre-render elementów statycznych (gradient tła, winietka, tekst)
-- Reużywanie surface'i zamiast tworzenia nowych w każdej klatce
+Animacja jest liczona od czasu (`dt`), nie od liczby klatek, więc tempo nie zależy od FPS. Klatka renderuje się w ~1 ms.
 
 ## Licencja
 
